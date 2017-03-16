@@ -52,8 +52,9 @@ ICY.prototype = {
 				this.token = json.token;
 				this.log("token retrieved: " + this.token);
 				callback(null, this.token);
+			} else {
+				callback(err);				
 			}
-			callback(err);
 		}.bind(this));
 	},
 	
@@ -76,8 +77,9 @@ ICY.prototype = {
 						this.currentTemperature = parseFloat(json.temperature1);
 						this.targetTemperature = parseFloat(json.temperature2);
 						callback(null, this.currentTemperature);
+					} else {
+						callback(err);
 					}
-					callback(err);
 				}.bind(this));
 			} else {
 				this.log("Error retrieving token %s", err);
@@ -101,8 +103,9 @@ ICY.prototype = {
 						this.currentTemperature = parseFloat(json.temperature1);
 						this.targetTemperature = parseFloat(json.temperature2);
 						callback(null, this.targetTemperature);
+					} else {
+						callback(err);
 					}
-					callback(err);
 				}.bind(this));
 			} else {
 				this.log("Error retrieving token %s", err);
