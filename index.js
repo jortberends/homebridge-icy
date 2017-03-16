@@ -35,6 +35,7 @@ ICY.prototype = {
 	},
 	
 	getToken: function(callback) {
+		this.log("getToken");
 		if (this.token) {
 			callback(null, this.token);
 		}
@@ -59,6 +60,7 @@ ICY.prototype = {
 	// Required
 	getCurrentTemperature: function(callback) {
 		
+		this.log("getCurrentTemperature");
 		getToken(function (err, token) {
 			if (!err && token != null) {
 				request.get({
@@ -83,8 +85,32 @@ ICY.prototype = {
 		});
 	},
 	getTargetTemperature: function(callback) {
+		this.log("getTargetTemperature");
+		getToken(function (err, token) {
+			if (!err && token != null) {
+				request.get({
+					url: this.apiroute + "/data",
+					form: {
+						username: this.username,
+						password: this.password
+					}
+				}, function (err, response, body) {
+					if (!err && response.statusCode == 200) {
+						this.log("response success");
+						var json = JSON.parse(body);
+						this.currentTemperature = parseFloat(json.temperature1);
+						this.targetTemperature = parseFloat(json.temperature2);
+						callback(null, this.targetTemperature);
+					}
+					callback(err);
+				}.bind(this));
+			} else {
+				this.log("Error retrieving token %s", err);
+			}
+		});
 	},
 	setTargetTemperature: function(value, callback) {
+		this.log("setTargetTemperature");
 	},
 	getTemperatureDisplayUnits: function(callback) {
 		this.log("getTemperatureDisplayUnits:", this.temperatureDisplayUnits);
@@ -146,7 +172,6 @@ ICY.prototype = {
 				maxValue: this.maxTemp,
 				minStep: 1
 			});
-		this.log(this.minTemp);
 		return [informationService, this.service];
 	}
 };
