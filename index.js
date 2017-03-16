@@ -7,7 +7,6 @@ module.exports = function(homebridge){
   homebridge.registerAccessory("homebridge-icy", "ICY", ICY);
 };
 
-
 function ICY(log, config) {
 	this.log = log;
 	this.maxTemp = config.maxTemp || 25;
