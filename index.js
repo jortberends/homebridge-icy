@@ -18,6 +18,7 @@ function ICY(log, config) {
 	this.username = config.username || null;
 	this.password = config.password || null;
 	this.token = null;
+	this.uid = null;
 
 	this.temperatureDisplayUnits = Characteristic.TemperatureDisplayUnits.CELSIUS;
 	this.currentTemperature = 19;
@@ -49,7 +50,8 @@ ICY.prototype = {
 			if (!err && response.statusCode == 200) {
 				this.log("response success");
 				var json = JSON.parse(body);
-				this.token = json.token;
+				this.token = json.token; // Login token
+				this.uid = json.serialthermostat1; // Thermostat serial, for setting temperature
 				this.log("token retrieved: " + this.token);
 				callback(null, this.token);
 			} else {
@@ -74,10 +76,11 @@ ICY.prototype = {
 					if (!err && response.statusCode == 200) {
 						this.log("response success");
 						var json = JSON.parse(body);
-						this.currentTemperature = parseFloat(json.temperature1);
-						this.targetTemperature = parseFloat(json.temperature2);
+						this.currentTemperature = parseFloat(json.temperature2);
+						this.targetTemperature = parseFloat(json.temperature1);
 						callback(null, this.currentTemperature);
 					} else {
+						this.token = null;
 						callback(err);
 					}
 				}.bind(this));
@@ -95,6 +98,9 @@ ICY.prototype = {
 					form: {
 						username: this.username,
 						password: this.password
+					}, 
+					headers: {
+						"Session-token": token
 					}
 				}, function (err, response, body) {
 					if (!err && response.statusCode == 200) {
@@ -104,6 +110,7 @@ ICY.prototype = {
 						this.targetTemperature = parseFloat(json.temperature2);
 						callback(null, this.targetTemperature);
 					} else {
+						this.token = null;
 						callback(err);
 					}
 				}.bind(this));
@@ -114,6 +121,30 @@ ICY.prototype = {
 	},
 	setTargetTemperature: function(value, callback) {
 		this.log("setTargetTemperature");
+		getToken(function (err, token) {
+			if (!err && token != null) {
+				request.post({
+					url: this.apiroute + "/data",
+					form: {
+						uid: this.uid,
+						temperature1: value
+					}, 
+					headers: {
+						"Session-token": token
+					}
+				}, function (err, response, body) {
+					if (!err && response.statusCode == 200) {
+						this.log("response success");
+						callback(null);
+					} else {
+						this.token = null;
+						callback(err);
+					}
+				}.bind(this));
+			} else {
+				this.log("Error retrieving token %s", err);
+			}
+		});
 	},
 	getTemperatureDisplayUnits: function(callback) {
 		this.log("getTemperatureDisplayUnits:", this.temperatureDisplayUnits);
@@ -139,8 +170,6 @@ ICY.prototype = {
 			.setCharacteristic(Characteristic.Manufacturer, "HTTP Manufacturer")
 			.setCharacteristic(Characteristic.Model, "HTTP Model")
 			.setCharacteristic(Characteristic.SerialNumber, "HTTP Serial Number");
-
-		
 
 		// Required Characteristics
 
