@@ -1,0 +1,23 @@
+{
+  "name": "homebridge-icy",
+  "version": "0.0.1",
+  "description": "Homebridge plugin for ICY (aka E-thermostaat)",
+  "license": "ISC",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jortberends/homebridge-icy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jortberends/homebridge-icy/issues"
+  },
+  "dependencies": {
+    "request": "^2.65.0"
+  },
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  }
+}
