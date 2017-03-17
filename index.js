@@ -61,6 +61,18 @@ ICY.prototype = {
 	},
 	
 	// Required
+	getCurrentHeatingCoolingState: function(callback) {
+		//	Not possible to implement for ICY
+		callback(null, Characteristic.CurrentHeatingCoolingState.OFF);
+	},
+	getTargetHeatingCoolingState: function(callback) {
+		//	Not possible to implement for ICY
+		callback(null, Characteristic.TargetHeatingCoolingState.OFF)
+	},
+	setTargetHeatingCoolingState: function(value, callback) {
+		//	Not possible to implement for ICY
+		callback(null);
+	},
 	getCurrentTemperature: function(callback) {
 		
 		this.log("getCurrentTemperature");
@@ -106,8 +118,8 @@ ICY.prototype = {
 					if (!err && response.statusCode == 200) {
 						this.log("response success");
 						var json = JSON.parse(body);
-						this.currentTemperature = parseFloat(json.temperature1);
-						this.targetTemperature = parseFloat(json.temperature2);
+						this.currentTemperature = parseFloat(json.temperature2);
+						this.targetTemperature = parseFloat(json.temperature1);
 						callback(null, this.targetTemperature);
 					} else {
 						this.token = null;
@@ -172,6 +184,14 @@ ICY.prototype = {
 			.setCharacteristic(Characteristic.SerialNumber, "HTTP Serial Number");
 
 		// Required Characteristics
+		this.service
+			.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
+			.on('get', this.getCurrentHeatingCoolingState.bind(this));
+
+		this.service
+			.getCharacteristic(Characteristic.TargetHeatingCoolingState)
+			.on('get', this.getTargetHeatingCoolingState.bind(this))
+			.on('set', this.setTargetHeatingCoolingState.bind(this));
 
 		this.service
 			.getCharacteristic(Characteristic.CurrentTemperature)
