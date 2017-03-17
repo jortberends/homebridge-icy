@@ -38,25 +38,26 @@ ICY.prototype = {
 		this.log("getToken");
 		if (this.token) {
 			callback(null, this.token);
+		} else {
+			request.post({
+				url: this.apiroute+"/login",
+				form: {
+					username: this.username,
+					password: this.password
+				}
+			}, function (err, response, body) {
+				if (!err && response.statusCode == 200) {
+					this.log("response success");
+					var json = JSON.parse(body);
+					this.token = json.token; // Login token
+					this.uid = json.serialthermostat1; // Thermostat serial, for setting temperature
+					this.log("token retrieved: " + this.token);
+					callback(null, this.token);
+				} else {
+					callback(err);				
+				}
+			}.bind(this));
 		}
-		request.post({
-			url: this.apiroute+"/login",
-			form: {
-				username: this.username,
-				password: this.password
-			}
-		}, function (err, response, body) {
-			if (!err && response.statusCode == 200) {
-				this.log("response success");
-				var json = JSON.parse(body);
-				this.token = json.token; // Login token
-				this.uid = json.serialthermostat1; // Thermostat serial, for setting temperature
-				this.log("token retrieved: " + this.token);
-				callback(null, this.token);
-			} else {
-				callback(err);				
-			}
-		}.bind(this));
 	},
 	
 	// Required
