@@ -1,6 +1,7 @@
 # homebridge-icy
-Homebridge plugin for ICY (aka E-thermostaat)
+[Homebridge] (https://github.com/nfarina/homebridge) plugin for ICY (aka E-thermostaat)
 # Installation
+
 ## Install plugin
 Clone this project and run this in the folder:
 ```
@@ -14,8 +15,6 @@ Add this to your homebridge configuration:
             "accessory": "ICY",
             "name": "ICY",
             "apiroute": "https://portal.icy.nl",
-            "maxTemp": "26",
-            "minTemp": "15",
             "username": "",
             "password": ""
         }
