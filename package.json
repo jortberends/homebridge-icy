@@ -1,8 +1,11 @@
 {
   "name": "homebridge-icy",
-  "version": "0.0.1",
-  "description": "Homebridge plugin for ICY (aka E-thermostaat)",
+  "version": "0.1.0",
+  "description": "Homebridge plugin for ICY also known as Essent E-Thermostaat",
   "license": "ISC",
+  "author": {
+    "name": "Jort Berends"
+  },
   "keywords": [
     "homebridge-plugin"
   ],
