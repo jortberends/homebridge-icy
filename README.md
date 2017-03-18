@@ -1,5 +1,7 @@
 # homebridge-icy
-[Homebridge](https://github.com/nfarina/homebridge) plugin for ICY (aka E-thermostaat)
+[Homebridge](https://github.com/nfarina/homebridge) plugin for the [Essent E-Thermostat](https://www.e-thermostaat.nl/), also known as ICY.
+
+Plugin voor de [Essent E-Thermostaat](https://www.e-thermostaat.nl/), ook bekend als ICY.
 # Installation
 
 ## Install plugin
