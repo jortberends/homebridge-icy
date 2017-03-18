@@ -1,5 +1,5 @@
 # homebridge-icy
-[Homebridge] (https://github.com/nfarina/homebridge) plugin for ICY (aka E-thermostaat)
+[Homebridge](https://github.com/nfarina/homebridge) plugin for ICY (aka E-thermostaat)
 # Installation
 
 ## Install plugin
