@@ -4,9 +4,8 @@
 Plugin voor de [Essent E-Thermostaat](https://www.e-thermostaat.nl/), ook bekend als ICY.
 
 ## Install plugin
-Clone this project and run this in the folder:
 ```
-npm install -g
+npm install -g jortberends/homebridge-icy
 ```
 ## Configure homebridge
 Add this to your homebridge configuration:
