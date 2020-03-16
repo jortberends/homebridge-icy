@@ -59,7 +59,7 @@ class ICY {
 // 					this.log("Login token retrieved: " + this.token);
 					callback(null, this.token);
 				} else {
-					this.log(error);
+					this.log(err);
 					callback(err);				
 				}
 			}.bind(this));
@@ -90,7 +90,7 @@ class ICY {
 					} else {
 // 						this.log("Refreshing failed with body: ", body);
 						this.token = null;
-						this.log(error);
+						this.log(err);
 						callback(err);
 					}
 				}.bind(this));
@@ -160,7 +160,7 @@ class ICY {
 // 						this.log("setTargetTemperature response success");
 						callback(null);
 					} else {
-						this.log(error);
+						this.log(err);
 						this.token = null;
 						callback(err);
 					}
